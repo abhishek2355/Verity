@@ -10,6 +10,7 @@ from PIL import Image
 import librosa
 import torch
 from moviepy.editor import VideoFileClip
+from utils import FakeNewsReasons
 
 warnings.filterwarnings("ignore")
 nltk.download("stopwords", quiet=True)
@@ -228,7 +229,7 @@ def check_news():
             "result_news.html",
             label=label,
             confidence=confidence,
-            reason=f"Model confidence: {confidence}%"
+            reason=FakeNewsReasons.get_reason(label, "news")
         )
 
     return render_template("check_news.html")
@@ -247,7 +248,12 @@ def check_image():
         label, confidence = detect_ai_image(path)
         os.remove(path)
 
-        return render_template("result_image.html", label=label, confidence=f"{confidence}%")
+        return render_template(
+            "result_image.html", 
+            label=label, 
+            confidence=f"{confidence}%",
+            reason=FakeNewsReasons.get_reason(label, "image")
+        )
 
     return render_template("check_image.html")
 
@@ -265,7 +271,12 @@ def check_audio():
         label, confidence = detect_ai_audio(path)
         os.remove(path)
 
-        return render_template("result_audio.html", label=label, confidence=f"{confidence}%")
+        return render_template(
+            "result_audio.html", 
+            label=label, 
+            confidence=f"{confidence}%",
+            reason=FakeNewsReasons.get_reason(label, "audio")
+        )
 
     return render_template("check_audio.html")
 
@@ -283,7 +294,12 @@ def check_video():
         label, confidence = detect_ai_video(path)
         os.remove(path)
 
-        return render_template("result_video.html", label=label, confidence=f"{confidence}%")
+        return render_template(
+            "result_video.html", 
+            label=label, 
+            confidence=f"{confidence}%",
+            reason=FakeNewsReasons.get_reason(label, "video")
+        )
 
     return render_template("check_video.html")
 
