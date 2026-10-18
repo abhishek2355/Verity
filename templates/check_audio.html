@@ -4,7 +4,7 @@
 
 {% block content %}
 <section class="page-layout">
-    <a class="back-link" href="{{ url_for('home') }}"><span aria-hidden="true">←</span> All detection tools</a>
+    <a class="back-link" href="{{ url_for('main.home') }}"><span aria-hidden="true">←</span> All detection tools</a>
     <div class="page-heading">
         <p class="eyebrow">Audio analysis</p>
         <h1>Check an audio clip</h1>
@@ -12,7 +12,7 @@
     </div>
 
     <div class="panel">
-        <form action="{{ url_for('check_audio') }}" method="POST" enctype="multipart/form-data" class="upload-form">
+        <form action="{{ url_for('main.check_audio') }}" method="POST" enctype="multipart/form-data" class="upload-form">
             <label class="dropzone" for="audio">
                 <span class="dropzone-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><path d="M4 13v-1a8 8 0 0 1 16 0v1"/><path d="M4 13h3v6H5a1 1 0 0 1-1-1zM20 13h-3v6h2a1 1 0 0 0 1-1z"/><path d="M10 20h4"/></svg>

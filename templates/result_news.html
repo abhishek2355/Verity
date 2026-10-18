@@ -4,7 +4,7 @@
 
 {% block content %}
 <section class="page-layout">
-    <a class="back-link" href="{{ url_for('check_news') }}"><span aria-hidden="true">←</span> Check another story</a>
+    <a class="back-link" href="{{ url_for('main.check_news') }}"><span aria-hidden="true">←</span> Check another story</a>
     <div class="page-heading">
         <p class="eyebrow">Text analysis complete</p>
         <h1>News story result</h1>
@@ -22,8 +22,8 @@
     <p class="result-disclaimer">This is an automated estimate, not a fact-check. Verify important claims with reliable sources.</p>
 
     <div class="btn-group">
-        <a href="{{ url_for('check_news') }}" class="btn-primary">Check another story</a>
-        <a href="{{ url_for('home') }}" class="btn-secondary">All tools</a>
+        <a href="{{ url_for('main.check_news') }}" class="btn-primary">Check another story</a>
+        <a href="{{ url_for('main.home') }}" class="btn-secondary">All tools</a>
     </div>
 </section>
 {% endblock %}
