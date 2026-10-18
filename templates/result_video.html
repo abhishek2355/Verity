@@ -1,32 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Result - Fake News Detection</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+{% extends "base.html" %}
 
-<body>
-    <div class="container">
-        <h1 class="title">Detection Result</h1>
+{% block title %}Video analysis result · Verity{% endblock %}
 
-        <div class="result-card {{ 'fake' if label == 'AI' else 'real' }}">
-            <h2>Prediction: <span class="label">{{ label }}</span></h2>
-            <p class="confidence">Confidence: <strong>{{ confidence }}%</strong></p>
-            <p class="reason">📌 Reason: {{ reason }}</p>
-        </div>
-        
-        <div class="analysis-details">
-            <h3>📊 Analysis Breakdown:</h3>
-            <p><strong>✅ Frame Analysis:</strong> Visual content checked for AI generation patterns</p>
-            <p><strong>✅ Audio Analysis:</strong> Voice track checked for deepfake audio signatures</p>
-            <p><strong>⚙️ Method:</strong> Combined image + audio deepfake detection models</p>
-        </div>
-
-        <div class="btn-group">
-            <a href="{{ url_for('check_video') }}" class="btn-secondary">Analyze Another Video</a>
-            <a href="{{ url_for('home') }}" class="btn-secondary">Back to Home</a>
-        </div>
+{% block content %}
+<section class="page-layout">
+    <a class="back-link" href="{{ url_for('check_video') }}"><span aria-hidden="true">←</span> Check another video</a>
+    <div class="page-heading">
+        <p class="eyebrow">Video analysis complete</p>
+        <h1>Video result</h1>
     </div>
-</body>
-</html>
+
+    <div class="result-card {{ 'real' if label == 'REAL' else 'fake' }}">
+        <p class="result-kicker">Model prediction</p>
+        <h2><span class="label">{{ label }}</span></h2>
+        <p class="confidence">Confidence estimate: <strong>{{ confidence }}</strong></p>
+        <div class="confidence-track" role="meter" aria-label="Confidence estimate" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ confidence|string|replace('%', '') }}">
+            <div class="confidence-fill" style="width: {{ confidence|string|replace('%', '') }}%"></div>
+        </div>
+        <p class="reason">{{ reason }}</p>
+    </div>
+
+    <div class="analysis-details">
+        <h3>What was analyzed</h3>
+        <p>Visual frames were checked for possible AI-generation patterns.</p>
+        <p>The audio track was checked for possible synthetic-audio signals when available.</p>
+    </div>
+    <p class="result-disclaimer">This is an automated estimate, not proof of authenticity. Models can miss manipulations or flag genuine media.</p>
+
+    <div class="btn-group">
+        <a href="{{ url_for('check_video') }}" class="btn-primary">Check another video</a>
+        <a href="{{ url_for('home') }}" class="btn-secondary">All tools</a>
+    </div>
+</section>
+{% endblock %}

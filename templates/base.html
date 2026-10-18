@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f2">
+    <title>{% block title %}Verity · Media Check{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="{{ url_for('home') }}">
+            <span class="brand-mark" aria-hidden="true">V</span>
+            <span>Verity</span>
+        </a>
+        <a class="header-link" href="{{ url_for('home') }}">Detection tools <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <main class="site-main">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash" role="alert">
+                    {% for message in messages %}<p>{{ message }}</p>{% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <p>Verity offers AI-assisted analysis. Results are estimates and should not be treated as definitive proof.</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll(".dropzone").forEach((zone) => {
+            const input = zone.querySelector('input[type="file"]');
+            const title = zone.querySelector(".dropzone-title");
+            const help = zone.querySelector(".dropzone-help");
+            const defaultTitle = title.textContent;
+            let previewUrl;
+
+            const showFile = (file) => {
+                if (!file) return;
+                title.textContent = file.name;
+                help.textContent = `${(file.size / 1024 / 1024).toFixed(2)} MB · Click to change`;
+                const preview = zone.querySelector("#preview");
+                const previewText = zone.querySelector("#preview-text");
+                if (preview && file.type.startsWith("image/")) {
+                    if (previewUrl) URL.revokeObjectURL(previewUrl);
+                    previewUrl = URL.createObjectURL(file);
+                    preview.src = previewUrl;
+                    preview.style.display = "block";
+                    previewText.style.display = "none";
+                }
+            };
+
+            input.addEventListener("change", () => {
+                if (input.files[0]) showFile(input.files[0]);
+                else title.textContent = defaultTitle;
+            });
+
+            zone.addEventListener("dragover", (event) => {
+                event.preventDefault();
+                zone.classList.add("dragover");
+            });
+            zone.addEventListener("dragleave", () => zone.classList.remove("dragover"));
+            zone.addEventListener("drop", (event) => {
+                event.preventDefault();
+                zone.classList.remove("dragover");
+                if (!event.dataTransfer.files.length) return;
+                input.files = event.dataTransfer.files;
+                showFile(input.files[0]);
+            });
+        });
+    </script>
+</body>
+</html>
