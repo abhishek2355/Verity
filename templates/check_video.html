@@ -1,84 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>AI Video Detector</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+{% extends "base.html" %}
 
-<body>
-<div class="container">
-    <h1 class="title">🎵 AI Video Detector</h1>
-    <p class="subtitle">Upload a video to check if it's AI-generated deepfake or real</p>
+{% block title %}Check a video · Verity{% endblock %}
 
-    <div class="warning subtitle">
-        ⚠️ Video analysis may take 30–60 seconds
+{% block content %}
+<section class="page-layout">
+    <a class="back-link" href="{{ url_for('home') }}"><span aria-hidden="true">←</span> All detection tools</a>
+    <div class="page-heading">
+        <p class="eyebrow">Video analysis</p>
+        <h1>Check a video</h1>
+        <p class="subtitle">Upload a clip for a combined visual-frame and audio review.</p>
     </div>
 
-    <form action="/check_video" method="POST" enctype="multipart/form-data" class="upload-form">
+    <div class="notice warning">
+        <span aria-hidden="true">i</span>
+        <span><strong>This may take a little while.</strong> Video analysis can take around 30–60 seconds, depending on the file and your computer.</span>
+    </div>
 
-        <div class="upload-area" id="uploadArea">
-            <div class="icon">📁</div>
-            <div class="file-label" id="fileLabel">
-                Click to select video file <br> or drag & drop
-            </div>
-            <div class="supported-formats" id="fileInfo">
-                Supported: MP4, AVI, MOV, MKV, WebM
-            </div>
-
-            <!-- IMPORTANT: input stays in DOM -->
-            <input
-                type="file"
-                id="video"
-                name="video"
-                accept=".mp4,.avi,.mov,.mkv,.webm"
-                required
-                hidden
-            >
-        </div>
-
-        <button type="submit" class="btn-primary">🔍 Analyze Video</button>
-    </form>
-
-    <a href="{{ url_for('home') }}" class="back-link">← Back to Home</a>
-</div>
-
-<script>
-const uploadArea = document.getElementById('uploadArea');
-const fileInput = document.getElementById('video');
-const fileLabel = document.getElementById('fileLabel');
-const fileInfo = document.getElementById('fileInfo');
-
-// Click
-uploadArea.addEventListener('click', () => fileInput.click());
-
-// Drag & drop
-uploadArea.addEventListener('dragover', e => {
-    e.preventDefault();
-    uploadArea.classList.add('dragover');
-});
-
-uploadArea.addEventListener('dragleave', () => {
-    uploadArea.classList.remove('dragover');
-});
-
-uploadArea.addEventListener('drop', e => {
-    e.preventDefault();
-    uploadArea.classList.remove('dragover');
-    fileInput.files = e.dataTransfer.files;
-    updateInfo();
-});
-
-fileInput.addEventListener('change', updateInfo);
-
-function updateInfo() {
-    if (fileInput.files[0]) {
-        const file = fileInput.files[0];
-        fileLabel.textContent = `✅ ${file.name}`;
-        fileInfo.textContent = `${(file.size / 1024 / 1024).toFixed(2)} MB`;
-    }
-}
-</script>
-
-</body>
-</html>
+    <div class="panel">
+        <form action="{{ url_for('check_video') }}" method="POST" enctype="multipart/form-data" class="upload-form">
+            <label class="dropzone" for="video">
+                <span class="dropzone-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="12" height="13" rx="2"/><path d="m15.5 10 5-3v10l-5-3z"/></svg>
+                </span>
+                <span class="dropzone-title">Choose a video or drag it here</span>
+                <span class="dropzone-help">MP4 · AVI · MOV · MKV · WebM</span>
+                <input class="visually-hidden" type="file" id="video" name="video" accept=".mp4,.avi,.mov,.mkv,.webm" required>
+            </label>
+            <button type="submit" class="btn-primary">Analyze video <span aria-hidden="true">→</span></button>
+        </form>
+    </div>
+</section>
+{% endblock %}

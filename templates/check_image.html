@@ -1,51 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Check News - Fake News Detection</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="container">
-        <h1 class="title">Check News Authenticity</h1>
-        <p class="subtitle"> Upload the news image below:</p>
+{% extends "base.html" %}
 
-        <form method="post" enctype="multipart/form-data" class="upload-form">
-            <h3>Upload Image</h3>
-            <p class="hint">Supported formats: JPG, PNG</p>
+{% block title %}Check an image · Verity{% endblock %}
 
-            <div class="upload-row">
-                <!-- File input -->
-                <label class="file-box">
-                    <input type="file"
-                        name="image"
-                        accept="image/*"
-                        required
-                        onchange="previewImage(event)">
-                    <span>Select Image</span>
-                </label>
-
-                <!-- Preview -->
-                <div class="preview-box">
-                    <img id="preview" src="" alt="Preview" />
-                    <span id="preview-text">No image selected</span>
-                </div>
-            </div>
-
-            <button type="submit" class="btn-primary">🔍 Detect AI Image</button>
-        </form>
-
-        <a href="{{ url_for('home') }}" class="back-link">← Back to Home</a>
+{% block content %}
+<section class="page-layout">
+    <a class="back-link" href="{{ url_for('home') }}"><span aria-hidden="true">←</span> All detection tools</a>
+    <div class="page-heading">
+        <p class="eyebrow">Image analysis</p>
+        <h1>Check an image</h1>
+        <p class="subtitle">Upload an image to look for signals of AI generation.</p>
     </div>
-</body>
 
-<script>
-    function previewImage(event) {
-        const image = document.getElementById("preview");
-        const text = document.getElementById("preview-text");
-        image.src = URL.createObjectURL(event.target.files[0]);
-        image.style.display = "block";
-        text.style.display = "none";
-    }
-</script>
-</html>
+    <div class="panel">
+        <form method="post" enctype="multipart/form-data" class="upload-form">
+            <label class="dropzone" for="image">
+                <span class="dropzone-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><rect x="3.75" y="4.75" width="16.5" height="14.5" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="m5 17 4.5-4 3 2.5 2.5-2 4 3.5"/></svg>
+                </span>
+                <span class="dropzone-title">Choose an image or drag it here</span>
+                <span class="dropzone-help">JPG, PNG, and other common image formats</span>
+                <input class="visually-hidden" type="file" id="image" name="image" accept="image/*" required>
+                <span class="preview-box">
+                    <img id="preview" src="" alt="Selected image preview">
+                    <span id="preview-text">Image preview will appear here</span>
+                </span>
+            </label>
+            <button type="submit" class="btn-primary">Analyze image <span aria-hidden="true">→</span></button>
+        </form>
+    </div>
+</section>
+{% endblock %}

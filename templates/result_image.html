@@ -1,25 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Result - Fake News Detection</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
 
-    <div class="container">
-        <h1 class="title">Detection Result</h1>
+{% block title %}Image analysis result · Verity{% endblock %}
 
-        <div class="result-card {{ 'real' if label == 'REAL' else 'fake' }}">
-            <h2>Prediction: <span class="label">{{ label }}</span></h2>
-            <p class="confidence">Confidence: <strong>{{ confidence }}%</strong></p>
-            <p class="reason">📌 Reason: {{ reason }}</p>
-        </div>
-
-        <div class="btn-group">
-            <a href="{{ url_for('check_image') }}" class="btn-secondary">Check Another News</a>
-            <a href="{{ url_for('home') }}" class="btn-secondary">Back to Home</a>
-        </div>
+{% block content %}
+<section class="page-layout">
+    <a class="back-link" href="{{ url_for('check_image') }}"><span aria-hidden="true">←</span> Check another image</a>
+    <div class="page-heading">
+        <p class="eyebrow">Image analysis complete</p>
+        <h1>Image result</h1>
     </div>
-</body>
-</html>
+
+    <div class="result-card {{ 'real' if label == 'REAL' else 'fake' }}">
+        <p class="result-kicker">Model prediction</p>
+        <h2><span class="label">{{ label }}</span></h2>
+        <p class="confidence">Confidence estimate: <strong>{{ confidence }}</strong></p>
+        <div class="confidence-track" role="meter" aria-label="Confidence estimate" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ confidence|string|replace('%', '') }}">
+            <div class="confidence-fill" style="width: {{ confidence|string|replace('%', '') }}%"></div>
+        </div>
+        <p class="reason">{{ reason }}</p>
+    </div>
+    <p class="result-disclaimer">This is an automated estimate, not proof of how the image was made. Consider the source and context.</p>
+
+    <div class="btn-group">
+        <a href="{{ url_for('check_image') }}" class="btn-primary">Check another image</a>
+        <a href="{{ url_for('home') }}" class="btn-secondary">All tools</a>
+    </div>
+</section>
+{% endblock %}

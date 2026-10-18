@@ -1,68 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>AI Audio Detector</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+{% extends "base.html" %}
 
-<body>
-    <div class="container">
-        <h1 class="title">🎵 AI Audio Detector</h1>
-        <p class="subtitle"> Upload an audio file to check whether it is AI-generated or Real </p>
+{% block title %}Check audio · Verity{% endblock %}
 
-        <form action="/check_audio" method="POST" enctype="multipart/form-data" class="upload-form">
-            <div class="upload-area" id="uploadArea">
-                <div class="icon">🎧</div>
-                <div id="fileLabel" class="file-label"> Click to select audio file <br> or drag & drop </div>
-                <div class="supported-formats" id="fileInfo"> WAV · MP3 · M4A · FLAC · OGG </div>
-                <input
-                    type="file"
-                    id="audio"
-                    name="audio"
-                    accept=".wav,.mp3,.m4a,.flac,.ogg"
-                    required
-                >
-            </div>
-
-            <button type="submit" class="btn-primary">🔍 Analyze Audio</button>
-        </form>
-        <a href="{{ url_for('home') }}" class="back-link">← Back to Home</a>
+{% block content %}
+<section class="page-layout">
+    <a class="back-link" href="{{ url_for('home') }}"><span aria-hidden="true">←</span> All detection tools</a>
+    <div class="page-heading">
+        <p class="eyebrow">Audio analysis</p>
+        <h1>Check an audio clip</h1>
+        <p class="subtitle">Upload a recording to check for possible synthetic-audio signals.</p>
     </div>
 
-    <script>
-        const uploadArea = document.getElementById('uploadArea');
-        const fileInput = document.getElementById('audio');
-        const fileLabel = document.getElementById('fileLabel');
-        const fileInfo = document.getElementById('fileInfo');
-
-        uploadArea.addEventListener('click', () => fileInput.click());
-
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.classList.add('dragover');
-        });
-
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
-        });
-
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('dragover');
-            fileInput.files = e.dataTransfer.files;
-            updateFileInfo();
-        });
-
-        fileInput.addEventListener('change', updateFileInfo);
-
-        function updateFileInfo() {
-            if (fileInput.files[0]) {
-                const file = fileInput.files[0];
-                fileLabel.textContent = `✅ ${file.name}`;
-                fileInfo.textContent = `${(file.size / 1024 / 1024).toFixed(2)} MB`;
-            }
-        }
-    </script>
-</body>
-</html>
+    <div class="panel">
+        <form action="{{ url_for('check_audio') }}" method="POST" enctype="multipart/form-data" class="upload-form">
+            <label class="dropzone" for="audio">
+                <span class="dropzone-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M4 13v-1a8 8 0 0 1 16 0v1"/><path d="M4 13h3v6H5a1 1 0 0 1-1-1zM20 13h-3v6h2a1 1 0 0 0 1-1z"/><path d="M10 20h4"/></svg>
+                </span>
+                <span class="dropzone-title">Choose an audio file or drag it here</span>
+                <span class="dropzone-help">WAV · MP3 · M4A · FLAC · OGG</span>
+                <input class="visually-hidden" type="file" id="audio" name="audio" accept=".wav,.mp3,.m4a,.flac,.ogg" required>
+            </label>
+            <button type="submit" class="btn-primary">Analyze audio <span aria-hidden="true">→</span></button>
+        </form>
+    </div>
+</section>
+{% endblock %}

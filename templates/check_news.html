@@ -1,37 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Check News - Fake News Detection</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="container">
-        <h1 class="title">Check News Authenticity</h1>
-        <p class="subtitle">Enter the title and/or full article text below:</p>
+{% extends "base.html" %}
 
-        <!-- Flash Messages -->
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <div class="flash">
-              {% for msg in messages %}
-                <p>{{ msg }}</p>
-              {% endfor %}
-            </div>
-          {% endif %}
-        {% endwith %}
+{% block title %}Check a news story · Verity{% endblock %}
 
-        <form action="{{ url_for('check_news') }}" method="POST" class="form-box">
-            <label for="title">Title (optional):</label>
-            <input type="text" name="title" id="title" placeholder="Enter news title here...">
-
-            <label for="article">Full Article:</label>
-            <textarea name="article" id="article" rows="10" placeholder="Paste full article text here..." required></textarea>
-
-            <button type="submit" class="btn-primary">Analyze News</button>
-        </form>
-
-        <a href="{{ url_for('home') }}" class="back-link">← Back to Home</a>
+{% block content %}
+<section class="page-layout">
+    <a class="back-link" href="{{ url_for('home') }}"><span aria-hidden="true">←</span> All detection tools</a>
+    <div class="page-heading">
+        <p class="eyebrow">Text analysis</p>
+        <h1>Check a news story</h1>
+        <p class="subtitle">Add the headline and article text for an AI-assisted review.</p>
     </div>
-</body>
-</html>
+
+    <div class="panel">
+        <form action="{{ url_for('check_news') }}" method="POST" class="form-box">
+            <label for="title">Headline <span class="field-hint">(optional)</span></label>
+            <input type="text" name="title" id="title" placeholder="Enter the news headline">
+
+            <label for="article">Article text</label>
+            <textarea name="article" id="article" rows="9" placeholder="Paste the article text here..." required></textarea>
+            <p class="field-hint">For a more useful result, include the full article rather than just a headline.</p>
+
+            <button type="submit" class="btn-primary">Analyze story <span aria-hidden="true">→</span></button>
+        </form>
+    </div>
+</section>
+{% endblock %}

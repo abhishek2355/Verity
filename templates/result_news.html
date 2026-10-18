@@ -1,24 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Result - Fake News Detection</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="container">
-        <h1 class="title">Detection Result</h1>
+{% extends "base.html" %}
 
-        <div class="result-card {{ 'real' if label == 'REAL' else 'fake' }}">
-            <h2>Prediction: <span class="label">{{ label }}</span></h2>
-            <p class="confidence">Confidence: <strong>{{ confidence }}%</strong></p>
-            <p class="reason">📌 Reason: {{ reason }}</p>
-        </div>
+{% block title %}News analysis result · Verity{% endblock %}
 
-        <div class="btn-group">
-            <a href="{{ url_for('check_news') }}" class="btn-secondary">Check Another News</a>
-            <a href="{{ url_for('home') }}" class="btn-secondary">Back to Home</a>
-        </div>
+{% block content %}
+<section class="page-layout">
+    <a class="back-link" href="{{ url_for('check_news') }}"><span aria-hidden="true">←</span> Check another story</a>
+    <div class="page-heading">
+        <p class="eyebrow">Text analysis complete</p>
+        <h1>News story result</h1>
     </div>
-</body>
-</html>
+
+    <div class="result-card {{ 'real' if label == 'REAL' else 'fake' }}">
+        <p class="result-kicker">Model prediction</p>
+        <h2><span class="label">{{ label }}</span></h2>
+        <p class="confidence">Confidence estimate: <strong>{{ confidence }}{% if confidence is number %}%{% endif %}</strong></p>
+        <div class="confidence-track" role="meter" aria-label="Confidence estimate" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ confidence|string|replace('%', '') }}">
+            <div class="confidence-fill" style="width: {{ confidence|string|replace('%', '') }}%"></div>
+        </div>
+        <p class="reason">{{ reason }}</p>
+    </div>
+    <p class="result-disclaimer">This is an automated estimate, not a fact-check. Verify important claims with reliable sources.</p>
+
+    <div class="btn-group">
+        <a href="{{ url_for('check_news') }}" class="btn-primary">Check another story</a>
+        <a href="{{ url_for('home') }}" class="btn-secondary">All tools</a>
+    </div>
+</section>
+{% endblock %}
