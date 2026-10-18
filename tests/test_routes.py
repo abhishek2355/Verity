@@ -68,6 +68,18 @@ class RouteTests(unittest.TestCase):
         self.assertIn(b"Image analysis is unavailable.", response.data)
         self.assertEqual(list(Path(self.uploads.name).iterdir()), [])
 
+    def test_unconfigured_image_detector_reports_unavailable(self):
+        response = self.client.post(
+            "/check_image",
+            data={"image": (BytesIO(b"test image"), "sample.png")},
+            content_type="multipart/form-data",
+            follow_redirects=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"Image analysis is currently unavailable.", response.data)
+        self.assertEqual(list(Path(self.uploads.name).iterdir()), [])
+
 
 if __name__ == "__main__":
     unittest.main()
