@@ -4,7 +4,7 @@
 
 {% block content %}
 <section class="page-layout">
-    <a class="back-link" href="{{ url_for('check_image') }}"><span aria-hidden="true">←</span> Check another image</a>
+    <a class="back-link" href="{{ url_for('main.check_image') }}"><span aria-hidden="true">←</span> Check another image</a>
     <div class="page-heading">
         <p class="eyebrow">Image analysis complete</p>
         <h1>Image result</h1>
@@ -22,8 +22,8 @@
     <p class="result-disclaimer">This is an automated estimate, not proof of how the image was made. Consider the source and context.</p>
 
     <div class="btn-group">
-        <a href="{{ url_for('check_image') }}" class="btn-primary">Check another image</a>
-        <a href="{{ url_for('home') }}" class="btn-secondary">All tools</a>
+        <a href="{{ url_for('main.check_image') }}" class="btn-primary">Check another image</a>
+        <a href="{{ url_for('main.home') }}" class="btn-secondary">All tools</a>
     </div>
 </section>
 {% endblock %}

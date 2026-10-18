@@ -4,7 +4,7 @@
 
 {% block content %}
 <section class="page-layout">
-    <a class="back-link" href="{{ url_for('home') }}"><span aria-hidden="true">←</span> All detection tools</a>
+    <a class="back-link" href="{{ url_for('main.home') }}"><span aria-hidden="true">←</span> All detection tools</a>
     <div class="page-heading">
         <p class="eyebrow">Text analysis</p>
         <h1>Check a news story</h1>
@@ -12,7 +12,7 @@
     </div>
 
     <div class="panel">
-        <form action="{{ url_for('check_news') }}" method="POST" class="form-box">
+        <form action="{{ url_for('main.check_news') }}" method="POST" class="form-box">
             <label for="title">Headline <span class="field-hint">(optional)</span></label>
             <input type="text" name="title" id="title" placeholder="Enter the news headline">
 

@@ -4,7 +4,7 @@
 
 {% block content %}
 <section class="page-layout">
-    <a class="back-link" href="{{ url_for('check_video') }}"><span aria-hidden="true">←</span> Check another video</a>
+    <a class="back-link" href="{{ url_for('main.check_video') }}"><span aria-hidden="true">←</span> Check another video</a>
     <div class="page-heading">
         <p class="eyebrow">Video analysis complete</p>
         <h1>Video result</h1>
@@ -28,8 +28,8 @@
     <p class="result-disclaimer">This is an automated estimate, not proof of authenticity. Models can miss manipulations or flag genuine media.</p>
 
     <div class="btn-group">
-        <a href="{{ url_for('check_video') }}" class="btn-primary">Check another video</a>
-        <a href="{{ url_for('home') }}" class="btn-secondary">All tools</a>
+        <a href="{{ url_for('main.check_video') }}" class="btn-primary">Check another video</a>
+        <a href="{{ url_for('main.home') }}" class="btn-secondary">All tools</a>
     </div>
 </section>
 {% endblock %}
