@@ -5,7 +5,7 @@ services:
     plan: free
     region: oregon
     branch: main
-    buildCommand: pip install -r requirements-render-free.txt
+    buildCommand: pip install -r requirements.txt
     startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 600 app:app
     healthCheckPath: /
     envVars:
@@ -19,7 +19,3 @@ services:
         value: /tmp/verity-uploads
       - key: HF_HOME
         value: /tmp/huggingface
-      - key: ENABLE_IMAGE_MODELS
-        value: "false"
-      - key: ENABLE_AUDIO_MODELS
-        value: "false"
