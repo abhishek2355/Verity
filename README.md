@@ -45,13 +45,3 @@ python app.py
 ```
 
 Open [http://127.0.0.1:5000](http://127.0.0.1:5000). The first launch may take a while because the image and audio models are downloaded on startup; an internet connection is required.
-
-## Deploy on Render
-
-The repository includes a Render Blueprint in `render.yaml`. To create a free demo deployment:
-
-1. Push or merge this configuration to the repository's `main` branch.
-2. In the [Render Dashboard](https://dashboard.render.com/), select **New → Blueprint** and connect this repository.
-3. Review the `verity` web service and click **Apply**. Render generates the Flask secret and provides a public `onrender.com` URL when deployment succeeds.
-
-The free plan is for demos and may not have enough memory or disk space for PyTorch and the downloaded image/audio models. Free services can also sleep when idle, their local files and model cache are temporary, and first boot can be slow. If the build or startup fails from resource limits, use a paid instance with more memory.

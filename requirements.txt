@@ -9,7 +9,6 @@ decorator==4.4.2
 ExifRead==3.5.1
 filelock==3.19.1
 Flask==2.3.3
-gunicorn==23.0.0
 fsspec==2025.10.0
 hf-xet==1.2.0
 huggingface-hub==0.36.0
